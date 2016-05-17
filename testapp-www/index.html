@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SuperAwesome 1.0</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+    <style>
+    </style>
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">SuperAwesome 1.0</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form">
+            <div class="form-group">
+              <input id="user-email" type="text" placeholder="Email" class="form-control">
+            </div>
+            <button id="sign-in" type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Super, Awesome!</h1>
+        <p>“Curiouser and curiouser!” Cried Alice (she was so much surprised, that for the moment she quite forgot how to speak good English). “Now I’m opening out like the largest telescope that ever was! Good-bye, feet!” (for when she looked down at her feet they seemed to be almost out of sight, they were getting so far off).</p>
+        <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+
+       <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Alice</h2>
+          <p>Alice thought the whole thing very absurd, but they all looked so grave that she did not dare to laugh; and, as she could not think of anything to say, she simply bowed, and took the thimble, looking as solemn as she could.</p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>In</h2>
+          <p>“It is a long tail, certainly,” said Alice, looking down with wonder at the Mouse’s tail, “but why do you call it sad?” And she kept on puzzling about it while the Mouse was speaking, so that her idea of the tale was something like this.</p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+       </div>
+        <div class="col-md-4">
+          <h2>Wonderland</h2>
+          <p>Alice thought she might as well wait, as she had nothing else to do, and perhaps after all it might tell her something worth hearing. For some minutes it puffed away without speaking, but at last it unfolded its arms, took the hookah out of its mouth again, and said, “So you think you’re changed, do you”</p>
+          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Talk to Admin</h2>
+          <div>
+            <textarea class="form-control" id="older-messages" rows="5" readonly></textarea>
+            <textarea class="form-control" id="message" rows="1" placeholder="Type your message here"></textarea>
+          </div>
+          <div>
+            <button type="submit" id="send-message" class="btn btn-default">Send</button>
+          </div>
+        </div>
+      </div>
+     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="http://localhost:8000/static/minicom.js"></script>
+
+    <script language="javascript">
+      $('#message').keypress(function (e) {
+          if (e.which == 13) {
+            Minicom.send_admin($.cookie('user'), $('#message').val());
+            return false;
+          }
+        });
+      // Set logged-in user email.
+      $(function() {
+        var currentUser = $.cookie('user');
+        if (currentUser) {
+          $('#user-email').val(currentUser);
+        }
+      });
+
+      // Sign-in.
+      $(function() {
+        $('#sign-in').click(function(event) {
+          event.preventDefault();
+          $.cookie('user', $('#user-email').val())
+          Minicom.register($.cookie('user'));
+        });
+
+        $('#send-message').click(function(event) {
+          event.preventDefault();
+          Minicom.send_admin($.cookie('user'), $('#message').val());
+        });
+      });
+
+      // Register with Minicom.
+      $(function() {
+        if ($.cookie('user')) {
+          Minicom.register($.cookie('user'), $('#older-messages'));
+        }
+      });
+    </script>
+  </body>
+</html>
